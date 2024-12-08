@@ -17,11 +17,9 @@ jobs:
       run: echo "Hello, GitHub Actions!" > hello.txt
 
     - name: Upload Artifact
-      if: ${{ contains(github.event.head_commit.message, 'deploy') }}
       uses: actions/upload-artifact@v4
       with:
-        name:  my-artifact-${{ matrix.os }} 
-
+        name: my-artifact-${{ matrix.os }} 
         path: hello.txt
 
   deploy:
@@ -30,12 +28,15 @@ jobs:
 
     steps:
     - name: Download Artifact
-      if: ${{ contains(github.event.head_commit.message, 'deploy') }}
       uses: actions/download-artifact@v4
       with:
         name: my-artifact-ubuntu-latest
 
+    - name: List files
+      run: ls -la
+
+    - name: Check current directory
+      run: pwd
+
     - name: Display hello.txt
       run: cat hello.txt
-
-
